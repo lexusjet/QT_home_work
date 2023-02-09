@@ -11,9 +11,12 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -26,6 +29,10 @@ public:
     QWidget *centralwidget;
     QVBoxLayout *verticalLayout;
     QListView *listView;
+    QCheckBox *checkBox;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *pushButtonAdd;
+    QPushButton *pushButtonDelete;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -42,6 +49,26 @@ public:
         listView->setObjectName(QString::fromUtf8("listView"));
 
         verticalLayout->addWidget(listView);
+
+        checkBox = new QCheckBox(centralwidget);
+        checkBox->setObjectName(QString::fromUtf8("checkBox"));
+
+        verticalLayout->addWidget(checkBox);
+
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        pushButtonAdd = new QPushButton(centralwidget);
+        pushButtonAdd->setObjectName(QString::fromUtf8("pushButtonAdd"));
+
+        horizontalLayout->addWidget(pushButtonAdd);
+
+        pushButtonDelete = new QPushButton(centralwidget);
+        pushButtonDelete->setObjectName(QString::fromUtf8("pushButtonDelete"));
+
+        horizontalLayout->addWidget(pushButtonDelete);
+
+
+        verticalLayout->addLayout(horizontalLayout);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -60,6 +87,9 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", nullptr));
+        checkBox->setText(QApplication::translate("MainWindow", "\320\276\321\202\320\276\320\261\321\200\320\276\320\266\320\260\321\202\321\214 \321\202\320\276\320\273\321\214\320\272\320\276 \320\270\320\272\320\276\320\275\320\272\320\270 ", nullptr));
+        pushButtonAdd->setText(QApplication::translate("MainWindow", "\320\224\320\276\320\261\320\260\320\262\320\270\321\202\321\214", nullptr));
+        pushButtonDelete->setText(QApplication::translate("MainWindow", "\320\243\320\264\320\260\320\273\320\270\321\202\321\214", nullptr));
     } // retranslateUi
 
 };

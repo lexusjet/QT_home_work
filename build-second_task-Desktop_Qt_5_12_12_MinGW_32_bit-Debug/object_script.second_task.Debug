@@ -1,0 +1,11 @@
+debug/listviewitemdelegate.o
+debug/listviewitemdelegateicons.o
+debug/main.o
+debug/mainwindow.o
+debug/programlanguage.o
+debug/qlistmodel.o
+debug/qrc_resourve.o
+debug/moc_listviewitemdelegate.o
+debug/moc_listviewitemdelegateicons.o
+debug/moc_mainwindow.o
+debug/moc_qlistmodel.o
