@@ -9,10 +9,19 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    comandsreceiver.cpp \
+    invokerconad.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
+    ComandNewFile.h \
+    ComandOpenFile.h \
+    ComandSave.h \
+    Comands.h \
+    comand.h \
+    comandsreceiver.h \
+    invokerconad.h \
     mainwindow.h
 
 FORMS += \
@@ -25,3 +34,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resourse.qrc
+
+TRANSLATIONS += QtLanguage_ru.ts
+CODECFORSRC = UTF-8

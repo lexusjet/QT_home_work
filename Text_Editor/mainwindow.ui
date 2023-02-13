@@ -18,7 +18,14 @@
     <item>
      <widget class="QPushButton" name="infoButton">
       <property name="text">
-       <string>Справка</string>
+       <string>Info</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="ReadOnlybutton">
+      <property name="text">
+       <string>Read only</string>
       </property>
      </widget>
     </item>
@@ -30,25 +37,18 @@
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>Открыть</string>
+         <string>Open file</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>Сохранить</string>
+         <string>Save as</string>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="second_tsuck">
-      <property name="text">
-       <string>второе задание</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
