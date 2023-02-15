@@ -14,8 +14,10 @@ public:
     void save_file_as(QString & path);
     void open_file(QString& path);
     void create_new_file();
+    void change_language(QString lang);
 private:
     QPlainTextEdit * plainEdit;
+
 };
 
 #endif // COMANDSRECEIVER_H

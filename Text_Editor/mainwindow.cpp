@@ -3,8 +3,6 @@
 #include <QFileDialog>
 #include <QTextStream>
 
-
-#include <QtNetwork>
 #include <QDebug>
 
 
@@ -14,6 +12,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     reciver.set_editor(ui->plainTextEdit);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -128,4 +128,73 @@ void MainWindow::on_ReadOnlybutton_clicked()
     if(ui->plainTextEdit->isReadOnly()) mode = false;
     ui->plainTextEdit->setReadOnly(mode);
 }
+
+
+void MainWindow::on_actionDark_triggered()
+{
+    qApp->setStyleSheet(
+        "QMainWindow{"
+            "background-color:rgb(177,176,185)}"
+        "QPushButton{"
+            "background-color: rgb(128,128,128);"
+            "border-style: outset;"
+            "border-width: 2px;"
+            "border-radius: 10px;"
+            "border-color: rgb(0,0,0);"
+            "font: bold 14px;"
+            "min-width: 10em;"
+            "padding: 6px;}"
+        "QPushButton::selected{"
+            "background-color: rgb(224, 0, 0);"
+            "border-style: inset;}"
+        "QPushButton::pressed{"
+            "background-color: rgb(224, 224, 224);"
+            "border-style: inset;}");
+}
+
+
+void MainWindow::on_actionLight_triggered()
+{
+    qApp->setStyleSheet("QPushButton{"
+                        "background-color: rgb(224,224,224);"
+                        "border-style: outset;"
+                        "border-width: 2px;"
+                        "border-radius: 10px;"
+                        "border-color: rgb(0,0,0);"
+                        "font: bold 14px;"
+                        "min-width: 10em;"
+                        "padding: 6px;}");
+}
+
+
+void MainWindow::on_actionSave_file_as_triggered()
+{
+    invocker.set_comand(new ComandSave(&reciver, filepath));
+    invocker.exec_comand();
+}
+
+
+void MainWindow::on_actionOpen_file_triggered()
+{
+    invocker.set_comand(new ComandOpenFile(&reciver, filepath));
+    invocker.exec_comand();
+}
+
+
+void MainWindow::on_actionRussian_triggered()
+{
+    translator.load(":/rus_language/QtLanguage_ru.qm");
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+}
+
+
+void MainWindow::on_actionEanglish_triggered()
+{
+    translator.load("");
+    qApp->installTranslator(&translator);
+    ui->retranslateUi(this);
+}
+
+
 

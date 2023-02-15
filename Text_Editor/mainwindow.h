@@ -38,6 +38,18 @@ private slots:
 
 
 
+    void on_actionDark_triggered();
+
+    void on_actionLight_triggered();
+
+    void on_actionSave_file_as_triggered();
+
+    void on_actionOpen_file_triggered();
+
+    void on_actionRussian_triggered();
+
+    void on_actionEanglish_triggered();
+
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 
@@ -48,6 +60,7 @@ private:
     QString info_file_path =":/res/ress/info.txt";
     bool read_only;
     ComandsReceiver reciver;
+    QTranslator translator;
 
 private:
     Ui::MainWindow *ui;
