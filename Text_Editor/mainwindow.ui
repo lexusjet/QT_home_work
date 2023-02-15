@@ -37,6 +37,7 @@
     </item>
    </layout>
   </widget>
+  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -70,10 +71,10 @@
     <addaction name="menuLanguage"/>
     <addaction name="actionRead_only_mode"/>
     <addaction name="menuStyle"/>
+    <addaction name="actionPrint_file"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="actionSave_file_as">
    <property name="text">
     <string>Save file as</string>
@@ -107,6 +108,11 @@
   <action name="actionEanglish">
    <property name="text">
     <string>Eanglish</string>
+   </property>
+  </action>
+  <action name="actionPrint_file">
+   <property name="text">
+    <string>Print file</string>
    </property>
   </action>
  </widget>

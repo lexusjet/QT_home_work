@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     reciver.set_editor(ui->plainTextEdit);
 
-
 }
 
 MainWindow::~MainWindow()
@@ -22,18 +21,10 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_pushButton_2_clicked()
-{
-    invocker.set_comand(new ComandOpenFile(&reciver, filepath));
-    invocker.exec_comand();
-}
+void MainWindow::on_pushButton_2_clicked(){}
 
 
-void MainWindow::on_pushButton_clicked()
-{
-    invocker.set_comand(new ComandSave(&reciver, filepath));
-    invocker.exec_comand();
-}
+void MainWindow::on_pushButton_clicked(){}
 
 void MainWindow::on_infoButton_clicked()
 {
@@ -60,67 +51,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
     invocker.exec_comand();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//void MainWindow::on_second_tsuck_clicked()
-//{
-//    QString url = "https://mail.ru/";
-//    url = "https://dzen.ru/";
-//    url = "https://yandex.ru";
-//    QString  html = get_html(url);
-//    QFile t(":/res/ress/mail_ru.html");
-
-//    if(!t.open(QIODevice::ReadOnly)) return;
-//    QTextStream stream(&t);
-//    html = stream.read(t.size());
-
-//    if(html.isEmpty()){
-//        ui->plainTextEdit->setPlainText("Ошибка");
-//        return;
-//    }
-////    QStringList data = getData(html);
-//    QStringList weathe(find_wether(html));
-//    ui->plainTextEdit->setPlainText(html);
-//}
-
-
-
-//QStringList MainWindow::find_wether(QString & text)
-//{
-//    QStringList wether;
-//    QRegExp all_days ("\"(now|near|near\\d)\":\\{"); //("\"(now|near|near\\d)\":{(.*?)}");
-//    int pos = 0;
-//    pos = all_days.indexIn(text, pos);
-//    wether.append(all_days.cap(0));
-//    return wether;
-
-//}
-
-
-//QString MainWindow::get_html(const QString &url)
-//{
-//    ui->second_tsuck;
-//    QNetworkAccessManager manager;
-//    QNetworkReply *response = manager.get(QNetworkRequest(QUrl(url)));
-//    QEventLoop event;
-//    QObject::connect(response, SIGNAL(finished()), &event, SLOT(quit()));
-//    event.exec();
-//    response->deleteLater();
-//    return response->readAll();
-//}
-
 
 void MainWindow::on_ReadOnlybutton_clicked()
 {
@@ -194,6 +124,54 @@ void MainWindow::on_actionEanglish_triggered()
     translator.load("");
     qApp->installTranslator(&translator);
     ui->retranslateUi(this);
+}
+
+void MainWindow::on_actionPrint_file_triggered()
+{
+    QPrinter printer;
+    QPrintDialog dlg(&printer, this);
+    dlg.setWindowTitle(tr("Print"));
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+
+    QString printStr = ui->plainTextEdit->toPlainText();
+    QChar *list = printStr.data();
+    QStringList strlst;
+    int line = 0, cursor = 0;
+    for (bool getst = true;getst;){
+        int index = printStr.indexOf("\n", cursor); // Ищем перевод каретки
+        // на новую строку
+        QString s = "";
+        if (index == -1){
+            getst = false;
+            s.append(&list[cursor], printStr.length() - cursor);
+        }
+        else s.append(&list[cursor], index - cursor);
+        cursor = index + 1;
+        strlst << s;
+    }
+
+    QPainter painter;
+    painter.begin(&printer);
+    int w = painter.window().width();
+    int h = painter.window().height();
+    int amount = strlst.count();
+    QFont font = painter.font();
+    QFontMetrics fmetrics(font);
+    for (int i = 0; i < amount; i++){
+        QPointF pf;
+        pf.setX(10);
+        pf.setY(line);
+        painter.drawText(pf, strlst.at(i));
+        line += fmetrics.height();
+        if (h - line <= fmetrics.height()){
+            printer.newPage();
+            line = 0;
+        }
+    }
+    painter.end();
+
+    ui->plainTextEdit->print(&printer);
 }
 
 
