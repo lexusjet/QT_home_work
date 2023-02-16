@@ -5,9 +5,11 @@ FirstMyQtWidget::FirstMyQtWidget(QWidget *parent)
     : QWidget(parent),model(nullptr)
 {
     gridLay = new QGridLayout(this); // создаем слой для компоновки
-    //line = new QLineEdit(this);
+    line = new QLineEdit(this);
     this->setLayout(gridLay); // устанавливаем слой на виджет
     tree = new QTreeView(this);
+    line->move(100,0);
+    line->resize(200,50);
     gridLay->addWidget(tree, 1, 0, 10, 10); // размещен на первой строке
     //gridLay->addWidget(line, 1, 0, 10, 10);
     // с нулевого столбца
@@ -37,7 +39,9 @@ FirstMyQtWidget::FirstMyQtWidget(QWidget *parent)
         connect(mainPath, SIGNAL(clicked()), this, SLOT(goMainPath()));
         rebuildModel("/");
     }
-    //connect(tree, SIGNAL(tree->QAbstractItemView::doubleClicked(const QModelIndex& index)), this, SIGNAL(clicked(const QModelIndex& index)));
+    line->setText(curretnPath);
+    connect(tree, &QTreeView::doubleClicked, this, &FirstMyQtWidget::clicked);
+
 }
 
 void FirstMyQtWidget::chgDisk(int index)
@@ -64,6 +68,7 @@ void FirstMyQtWidget::rebuildModel(QString str)
     QList<QStandardItem*> items;
     items.append(new QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveHDIcon)), str));
     model->appendRow(items);
+
     QDir dir(str);
     dir.setFilter(QDir::Hidden | QDir::NoSymLinks | QDir::Dirs);
     QStringList list = dir.entryList();
@@ -71,14 +76,15 @@ void FirstMyQtWidget::rebuildModel(QString str)
     QList<QStandardItem*>folders;
     for (int i = 0; i < amount; i++)
     {
-        QStandardItem* f = new
-        QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon)),
+        QStandardItem* f = new QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon)),
         list.at(i));
         folders.append(f);
     }
     items.at(0)->appendRows(folders);
-    dir.setFilter(QDir::Hidden | QDir::NoSymLinks | QDir::Files);amount =
-    list.count();
+
+    dir.setFilter(QDir::Hidden | QDir::NoSymLinks | QDir::Files);
+    list = dir.entryList();
+    amount = list.count();
     QList<QStandardItem*>files;
     for (int i = 0; i < amount; i++)
     {
@@ -88,16 +94,28 @@ void FirstMyQtWidget::rebuildModel(QString str)
         files.append(f);
     }
     items.at(0)->appendRows(files);
+
     setNewModel(model);
+    line->setText(curretnPath);
 }
 
 void FirstMyQtWidget::clicked(const QModelIndex& index)
 {
-    if(true){
-        pathlist.append("folder/");
-    }
-    else{
-        return;
+    QString data = model->itemFromIndex(index)->text();
+
+    QString newpath = curretnPath;
+
+    QDir dir(newpath +data, "*", QDir::Unsorted, QDir::Dirs);
+
+    if(dir.exists()){
+        if(data == ".."|| data =="."){
+            newpath.remove(newpath.size()-1,1);
+            int  a = newpath.lastIndexOf("/");
+            newpath.remove(a, newpath.size() - a);
+        }
+        else
+            newpath += data;
+        rebuildModel(newpath + "/");
     }
 
 }
