@@ -9,6 +9,7 @@
 #include  <QPrinter>
 #include <QtPrintSupport>
 
+
  QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -33,6 +34,9 @@ private:
     ComandsReceiver reciver;
     QTranslator translator;
 
+    QTextDocument text_document;
+    QToolBar* toolbar;
+    QFont buffer_font;
 private:
     Ui::MainWindow *ui;
 
@@ -63,6 +67,8 @@ private slots:
 
     void on_actionPrint_file_triggered();
 
+    void text_format();
+    void copy_format();
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 

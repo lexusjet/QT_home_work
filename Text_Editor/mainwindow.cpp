@@ -2,9 +2,12 @@
 #include "ui_mainwindow.h"
 #include <QFileDialog>
 #include <QTextStream>
-
 #include <QDebug>
 
+
+//a. возможность копировать формат фрагмента текста и применять к другому фрагменту.
+//b. возможность выравнивания текста по правому и левому краю, а также по центру.
+//c. возможность выбора шрифта
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -13,12 +16,24 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     reciver.set_editor(ui->plainTextEdit);
 
+
+    ui->plainTextEdit->setDocument(&text_document);
+
+
+    toolbar = new QToolBar(this);
+    ui->verticalLayout->addWidget(toolbar);
+    auto action = toolbar->addAction("Choose format");
+    auto copy_format = toolbar->addAction("Copy format");
+    connect(action, &QAction::triggered, this, &MainWindow::text_format);
+    connect(copy_format, &QAction::triggered, this, &MainWindow::copy_format);
+
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 
 void MainWindow::on_pushButton_2_clicked(){}
@@ -129,7 +144,10 @@ void MainWindow::on_actionEanglish_triggered()
 void MainWindow::on_actionPrint_file_triggered()
 {
     QPrinter printer;
+//    printer.setPageSize(QPrinter::A4);
+
     QPrintDialog dlg(&printer, this);
+
     dlg.setWindowTitle(tr("Print"));
     if (dlg.exec() != QDialog::Accepted)
         return;
@@ -168,11 +186,39 @@ void MainWindow::on_actionPrint_file_triggered()
             printer.newPage();
             line = 0;
         }
+
     }
     painter.end();
 
     ui->plainTextEdit->print(&printer);
 }
 
+void MainWindow::text_format()
+{
+    QFont font = ui->plainTextEdit->textCursor().charFormat().font();
+    QFontDialog fntDlg(font,this);
+    bool b[] = {true};
+    font = fntDlg.getFont(b); // Запускаем диалог настройки шрифта
+    if (b[0]){
+        QTextCharFormat fmt;
+        fmt.setFont(font);
+        ui->plainTextEdit->textCursor().setCharFormat(fmt);
+    }
+}
+
+void MainWindow::copy_format()
+{
+    QTextBlockFormat a;
+    QTextCursor b(&text_document);
+//    QTextFrame c(&text_document);
+
+    b.movePosition(QTextCursor::End);
+    a.setAlignment(Qt::AlignHCenter);
 
 
+//    b.insertBlock(a);
+    b.insertText("hiiiiii");
+
+
+//    textdocument
+}

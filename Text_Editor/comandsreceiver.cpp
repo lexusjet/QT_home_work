@@ -4,7 +4,7 @@
 
 void ComandsReceiver::save_file_as(QString & path)
 {
-    QString path_to_save = QFileDialog::getSaveFileName(plainEdit,  "Пример фильтра", path, "Text(*.txt);");
+    QString path_to_save = QFileDialog::getSaveFileName(plainEdit,  "", path, "Text(*.txt);");
     if(path_to_save.size() == 0) return ;
     QFile text_file(path_to_save);
     if(text_file.open(QIODevice::WriteOnly)){
@@ -33,3 +33,4 @@ void ComandsReceiver::create_new_file()
 {
     plainEdit->setPlainText("");
 }
+
