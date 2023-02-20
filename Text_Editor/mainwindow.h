@@ -34,11 +34,19 @@ private:
     ComandsReceiver reciver;
     QTranslator translator;
 
+
+private:
     QTextDocument text_document;
-    QToolBar* toolbar;
-    QFont buffer_font;
+    QTextBlockFormat default_block_format;
+    QTextCharFormat default_text_format;
+
+    QTextCharFormat buffer_char_format;
+    QTextBlockFormat buffer_block_format;
+
 private:
     Ui::MainWindow *ui;
+    QToolBar* toolbar;
+
 
 private slots:
     void on_pushButton_2_clicked();
@@ -69,6 +77,8 @@ private slots:
 
     void text_format();
     void copy_format();
+    void set_format();
+    void set_alignment();
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 

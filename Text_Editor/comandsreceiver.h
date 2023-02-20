@@ -2,21 +2,21 @@
 #define COMANDSRECEIVER_H
 
 #include <QObject>
-#include "QPlainTextEdit"
+#include <QTextEdit>
 
 class ComandsReceiver
 {
 public:
     ComandsReceiver(){};
-    ComandsReceiver(QPlainTextEdit * ptr):plainEdit(ptr){};
-    void set_editor(QPlainTextEdit* ptr){ plainEdit = ptr;};
+    ComandsReceiver(QTextEdit * ptr):text_editor(ptr){};
+    void set_editor(QTextEdit* ptr){ text_editor = ptr;};
 
     void save_file_as(QString & path);
     void open_file(QString& path);
     void create_new_file();
     void change_language(QString lang);
 private:
-    QPlainTextEdit * plainEdit;
+    QTextEdit * text_editor;
 
 };
 

@@ -14,19 +14,38 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    reciver.set_editor(ui->plainTextEdit);
+    reciver.set_editor(ui->textEdit);
 
 
-    ui->plainTextEdit->setDocument(&text_document);
+    default_block_format.setAlignment(Qt::AlignLeft);
+    default_text_format.setFont(QFont("Times", 12));
+    QTextCursor tmp(&text_document);
+    tmp.setBlockFormat(default_block_format);
+    tmp.setCharFormat(default_text_format);
+    tmp.insertText("Start\n");
+    ui->textEdit->setDocument(&text_document);
+
 
 
     toolbar = new QToolBar(this);
     ui->verticalLayout->addWidget(toolbar);
     auto action = toolbar->addAction("Choose format");
     auto copy_format = toolbar->addAction("Copy format");
+    auto set_format = toolbar->addAction("Set text format");
+
     connect(action, &QAction::triggered, this, &MainWindow::text_format);
     connect(copy_format, &QAction::triggered, this, &MainWindow::copy_format);
+    connect(set_format, &QAction::triggered, this, &MainWindow::set_format);
 
+    auto set_alignment_right = toolbar->addAction(tr("Alignment right"));
+    auto set_alignment_left = toolbar->addAction(tr("Alignment left"));
+    auto set_alignment_center = toolbar->addAction(tr("Alignment center"));
+    set_alignment_right->setObjectName("Alignment right");
+    set_alignment_left->setObjectName("Alignment left");
+    set_alignment_center->setObjectName("Alignment center");
+    connect(set_alignment_right, &QAction::triggered, this, &MainWindow::set_alignment);
+    connect(set_alignment_left, &QAction::triggered, this, &MainWindow::set_alignment);
+    connect(set_alignment_center, &QAction::triggered, this, &MainWindow::set_alignment);
 }
 
 MainWindow::~MainWindow()
@@ -46,7 +65,7 @@ void MainWindow::on_infoButton_clicked()
     QFile info_file(info_file_path);
     info_file.open(QIODevice::ReadOnly);
     QTextStream stream(&info_file);
-    ui->plainTextEdit->setPlainText(QString(stream.read(info_file.size())));
+    ui->textEdit->setPlainText(QString(stream.read(info_file.size())));
     info_file.close();
 }
 
@@ -70,8 +89,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::on_ReadOnlybutton_clicked()
 {
     bool mode = true;
-    if(ui->plainTextEdit->isReadOnly()) mode = false;
-    ui->plainTextEdit->setReadOnly(mode);
+    if(ui->textEdit->isReadOnly()) mode = false;
+    ui->textEdit->setReadOnly(mode);
 }
 
 
@@ -152,7 +171,7 @@ void MainWindow::on_actionPrint_file_triggered()
     if (dlg.exec() != QDialog::Accepted)
         return;
 
-    QString printStr = ui->plainTextEdit->toPlainText();
+    QString printStr = ui->textEdit->toPlainText();
     QChar *list = printStr.data();
     QStringList strlst;
     int line = 0, cursor = 0;
@@ -190,35 +209,52 @@ void MainWindow::on_actionPrint_file_triggered()
     }
     painter.end();
 
-    ui->plainTextEdit->print(&printer);
+    ui->textEdit->print(&printer);
 }
 
 void MainWindow::text_format()
 {
-    QFont font = ui->plainTextEdit->textCursor().charFormat().font();
+    QFont font = ui->textEdit->textCursor().charFormat().font();
     QFontDialog fntDlg(font,this);
     bool b[] = {true};
     font = fntDlg.getFont(b); // Запускаем диалог настройки шрифта
     if (b[0]){
         QTextCharFormat fmt;
         fmt.setFont(font);
-        ui->plainTextEdit->textCursor().setCharFormat(fmt);
+        ui->textEdit->textCursor().setCharFormat(fmt);
     }
 }
 
 void MainWindow::copy_format()
 {
-    QTextBlockFormat a;
-    QTextCursor b(&text_document);
-//    QTextFrame c(&text_document);
+    QTextCursor tmp = ui->textEdit->textCursor();
+    buffer_block_format = tmp.blockFormat();
+    buffer_char_format = tmp.charFormat();
 
-    b.movePosition(QTextCursor::End);
-    a.setAlignment(Qt::AlignHCenter);
-
-
-//    b.insertBlock(a);
-    b.insertText("hiiiiii");
-
-
-//    textdocument
 }
+
+void MainWindow::set_format()
+{
+    ui->textEdit->textCursor().setCharFormat(buffer_char_format);
+    ui->textEdit->textCursor().setBlockFormat(buffer_block_format);
+}
+void MainWindow::set_alignment()
+{
+    QTextBlockFormat format = ui->textEdit->textCursor().blockFormat();
+    QObject* obj = sender();
+    QString name= obj->objectName();
+    Qt::Alignment aligment;
+    if(name == "Alignment right"){
+        aligment = Qt::AlignRight;
+
+    }
+    else if(name == "Alignment left"){
+        aligment = Qt::AlignLeft;
+    }
+    else if(name == "Alignment center"){
+        aligment = Qt::AlignCenter;
+    }
+    format.setAlignment(aligment);
+    ui->textEdit->textCursor().mergeBlockFormat(format);
+}
+
