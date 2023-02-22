@@ -3,7 +3,7 @@
 #include <QFileDialog>
 #include <QTextStream>
 #include <QDebug>
-
+#include <QDate>
 
 //a. возможность копировать формат фрагмента текста и применять к другому фрагменту.
 //b. возможность выравнивания текста по правому и левому краю, а также по центру.
@@ -46,6 +46,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(set_alignment_right, &QAction::triggered, this, &MainWindow::set_alignment);
     connect(set_alignment_left, &QAction::triggered, this, &MainWindow::set_alignment);
     connect(set_alignment_center, &QAction::triggered, this, &MainWindow::set_alignment);
+
+    auto insert_date = toolbar->addAction(tr("Insert date"));
+    auto insert_time = toolbar->addAction(tr("Insert time"));
+    connect(insert_date, &QAction::triggered, this ,&MainWindow::insert_date);
+    connect(insert_time, &QAction::triggered, this, &MainWindow::insert_time);
 }
 
 MainWindow::~MainWindow()
@@ -256,5 +261,22 @@ void MainWindow::set_alignment()
     }
     format.setAlignment(aligment);
     ui->textEdit->textCursor().mergeBlockFormat(format);
+}
+
+void MainWindow::insert_date()
+{
+    QDate curent_date = QDate::currentDate();
+    QString date = QString::number(curent_date.day()) +"."+ QString::number(curent_date.month()) +"."+ QString::number(curent_date.year());
+    ui->textEdit->textCursor().insertText(date);
+}
+
+void MainWindow::insert_time()
+{
+    QTime curent_time = QTime::currentTime();
+    QString hour = QString::number(curent_time.hour());
+    QString minute = QString::number(curent_time.minute());
+    if(minute.size()) minute = "0" + minute;
+
+    ui->textEdit->textCursor().insertText(hour +":"+ minute);
 }
 

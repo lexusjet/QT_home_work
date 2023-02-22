@@ -79,6 +79,9 @@ private slots:
     void copy_format();
     void set_format();
     void set_alignment();
+
+    void insert_date();
+    void insert_time();
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 

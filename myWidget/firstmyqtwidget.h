@@ -10,6 +10,11 @@
 #include <QApplication>
 #include <QLineEdit>
 #include <QTreeWidgetItem>
+#include <QTextEdit>
+#include <QLabel>
+#include "controller.h"
+
+
 Q_PROPERTY(QStandardItemModel *model READ getCurrentModel WRITE setNewModel)
 
 class FirstMyQtWidget : public QWidget
@@ -23,21 +28,30 @@ public:
     void rebuildModel(QString str);
 
 private:
+    QBoxLayout *box_layout;
     QGridLayout *gridLay;
     QTreeView *tree;
     QPushButton *mainPath;
     QComboBox *disckSelBox;
     QLineEdit * line;
     QComboBox *mybox;
+
+    QLineEdit *searchEdit;
+    QPushButton *startFindButton;
+    Controller *controllerl;
+
 private slots:
     void chgDisk(int index); // получаем индекс выбранного диска
     void goMainPath(); // Для UNIX-подобных ОС верхним уровнем является
-    // путь /
 
+    void finde_file();
+    void print_anser(QString);
+    void new_model();
 private:
     QStandardItemModel *model;
     QString curretnPath;
     QStringList pathlist;
+    Controller* controller;
 
 
 public slots:

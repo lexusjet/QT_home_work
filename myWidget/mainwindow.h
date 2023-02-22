@@ -22,5 +22,7 @@ private:
     Ui::MainWindow *ui;
     FirstMyQtWidget* fmqw;
 
+
+
 };
 #endif // MAINWINDOW_H

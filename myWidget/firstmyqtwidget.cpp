@@ -1,20 +1,29 @@
 #include "firstmyqtwidget.h"
 #include <QDir>
+#include <QStatusBar>
 
 FirstMyQtWidget::FirstMyQtWidget(QWidget *parent)
     : QWidget(parent),model(nullptr)
 {
-    gridLay = new QGridLayout(this); // создаем слой для компоновки
+    controller = new Controller(this);
+    connect(controller, &Controller::genPathOfFile, this, &FirstMyQtWidget::print_anser);
+    connect(controller, &Controller::newFind, this , &FirstMyQtWidget::new_model);
+    startFindButton = new QPushButton( "Finde file",this);
+    connect(startFindButton, &QPushButton::clicked, this, &FirstMyQtWidget::finde_file);
+    searchEdit = new QLineEdit(this);
     line = new QLineEdit(this);
+
+    box_layout = new QBoxLayout(QBoxLayout::TopToBottom,this);
+    box_layout->addWidget(searchEdit);
+    box_layout->addWidget(startFindButton);
+    box_layout->addWidget(line);
+
+
+    gridLay = new QGridLayout(this); // создаем слой для компоновки
+    box_layout->addLayout(gridLay);
     this->setLayout(gridLay); // устанавливаем слой на виджет
     tree = new QTreeView(this);
-    line->move(100,0);
-    line->resize(200,50);
     gridLay->addWidget(tree, 1, 0, 10, 10); // размещен на первой строке
-    //gridLay->addWidget(line, 1, 0, 10, 10);
-    // с нулевого столбца
-    // занимает 10 условных строк
-    // и столбцов
 
     setMinimumSize(500, 600); // ограничиваем размер виджета
     if(QSysInfo::productType() == "windows"){
@@ -55,6 +64,31 @@ void FirstMyQtWidget::goMainPath()
     rebuildModel("/");
 }
 
+void FirstMyQtWidget::finde_file()
+{
+    QString file_name =searchEdit->text();
+    QString search_dir = curretnPath;
+    if(!file_name.size()) return;
+    if(file_name.back() == "/" && QDir(file_name).exists()) {
+        search_dir = file_name;
+    }
+    controller->startFind(search_dir,file_name);
+
+}
+
+void FirstMyQtWidget::print_anser(QString str)
+{
+    model->appendRow(new QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_FileIcon)),str));
+
+}
+
+void FirstMyQtWidget::new_model()
+{
+    QStandardItemModel* new_model = new QStandardItemModel(this);
+    setNewModel(new_model);
+}
+
+
 void FirstMyQtWidget::setNewModel(QStandardItemModel *newmodel)
 {
     tree->setModel(newmodel);
@@ -64,7 +98,7 @@ void FirstMyQtWidget::setNewModel(QStandardItemModel *newmodel)
 void FirstMyQtWidget::rebuildModel(QString str)
 {
     curretnPath = str;
-    QStandardItemModel *model = new QStandardItemModel(this);
+    model = new QStandardItemModel(this);
     QList<QStandardItem*> items;
     items.append(new QStandardItem(QIcon(QApplication::style()->standardIcon(QStyle::SP_DriveHDIcon)), str));
     model->appendRow(items);
@@ -119,3 +153,5 @@ void FirstMyQtWidget::clicked(const QModelIndex& index)
     }
 
 }
+
+
