@@ -1,0 +1,10 @@
+debug/main.o
+debug/mainwindow.o
+debug/baseinterface.o
+debug/task.o
+debug/taskcontroler.o
+debug/taskadderdialog.o
+debug/moc_mainwindow.o
+debug/moc_baseinterface.o
+debug/moc_taskcontroler.o
+debug/moc_taskadderdialog.o
