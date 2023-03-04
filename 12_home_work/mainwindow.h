@@ -5,6 +5,7 @@
 #include <QProgressBar>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QGridLayout>
 
 #include "downloader.h"
 #include "picsfindeer.h"
@@ -27,15 +28,17 @@ private:
     QLineEdit * line_edit;
     QPushButton * button;
     PicsFindeer* finder;
-
+    QGridLayout * layout;
     void showPic(const QString&);
+
+private:
+    int i = 0;
 
 private slots:
     void slotGo();
     void slotError();
     void slotDownlouadProgress(qint64, qint64);
     void sloteDone(const QUrl&, const QByteArray&);
-
 
 //=========================================================================================
 

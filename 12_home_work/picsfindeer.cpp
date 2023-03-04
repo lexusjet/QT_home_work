@@ -25,16 +25,16 @@ void PicsFindeer::douwnloadHtml(QUrl url)
 
 void PicsFindeer::findeReferense()
 {
-//    QRegExp img("<img class=\"serp-item__thumb justifier__thumb\" src=\"([^>\"]*)");
-    QRegExp img ("\"url\":\"(https:[^>\"]*)\"");
+    QRegExp img("<img class=\"serp-item__thumb justifier__thumb\" src=\"([^>\"]*)");
+//    QRegExp img ("\"url\":\"(https:[^>\"]*)\"");
     QStringList list;
     int pos = 0;
     for(size_t i = 0; i < 3; i++){
         pos = img.indexIn(html, pos);
         pos++;
         if(pos > -1){
-            emit referenceFound(QUrl(img.cap(1)));
-//            emit  referenceFound(QUrl("https:" + img.cap(1)));
+//            emit referenceFound(QUrl(img.cap(1)));
+            emit  referenceFound(QUrl("https:" + img.cap(1)));
         }
         else{
             qDebug()<<"Break";

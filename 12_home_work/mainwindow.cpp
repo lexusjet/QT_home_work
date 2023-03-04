@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QGridLayout>
 #include <QFile>
 #include <QLabel>
 #include <QMessageBox>
@@ -27,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(downloader, SIGNAL(error()), SLOT(slotError()));
     connect(button ,&QPushButton::clicked, this, &MainWindow::slotGo);
 
-    QGridLayout * layout = new QGridLayout(this);
+    layout = new QGridLayout(this);
     layout->addWidget(line_edit, 0,0);
     layout->addWidget(button,0,1);
     layout->addWidget(progress_bar, 1,0, 1,2);
@@ -46,10 +45,15 @@ MainWindow::~MainWindow()
 void MainWindow::showPic(const QString & path)
 {
     QPixmap pix(path);
-    pix = pix.scaled(pix.size() / 3);
+    pix = pix.scaled(pix.size());
+//    QMessageBox* a = new QMessageBox(this);
+//    a->setIconPixmap(pix);
+//    a->show();
+
     QLabel * label = new QLabel(this);
     label->setPixmap(pix);
     label->setFixedSize(pix.size());
+    layout->addWidget(label, 2,i++);
     label->show();
 }
 
