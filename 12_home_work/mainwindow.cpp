@@ -17,9 +17,12 @@ MainWindow::MainWindow(QWidget *parent) :
     button = new QPushButton(this);
     finder = new PicsFindeer(this);
 
+    qDebug() << QSslSocket::supportsSsl() << QSslSocket::sslLibraryBuildVersionString() << QSslSocket::sslLibraryVersionString();
+
+
     connect(finder, &PicsFindeer::referenceFound, downloader, &Downloader::download);
     connect(finder, SIGNAL(error()), SLOT(slotError()));
-    connect(downloader, SIGNAL(downloadProgress(qint64 ,qint64)), SLOT(slotDownlouadProgress(qint64, qint64)));
+//    connect(downloader, SIGNAL(downloadProgress(qint64 ,qint64)), SLOT(slotDownlouadProgress(qint64, qint64)));
     connect(downloader, SIGNAL(done(const QUrl&, const QByteArray& )), SLOT(sloteDone(const QUrl&, const QByteArray&)));
     connect(downloader, SIGNAL(error()), SLOT(slotError()));
     connect(button ,&QPushButton::clicked, this, &MainWindow::slotGo);
@@ -33,7 +36,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(wgt);
     wgt->setLayout(layout);
 
-//    connect(progress_bar, SIGNAL(), SLOT());
 }
 
 MainWindow::~MainWindow()
@@ -54,6 +56,7 @@ void MainWindow::showPic(const QString & path)
 void MainWindow::slotGo()
 {
     finder->find(line_edit->text());
+//    downloader->download(QUrl(line_edit->text()));
 
 }
 

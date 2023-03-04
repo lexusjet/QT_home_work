@@ -35,6 +35,10 @@ private slots:
     void slotError();
     void slotDownlouadProgress(qint64, qint64);
     void sloteDone(const QUrl&, const QByteArray&);
+
+
+//=========================================================================================
+
 };
 
 #endif // MAINWINDOW_H

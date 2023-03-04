@@ -747,23 +747,6 @@ release/mainwindow.o: ../12_home_work/mainwindow.cpp ../12_home_work/mainwindow.
 		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtCore/QMetaType \
 		../12_home_work/picsfindeer.h \
 		ui_mainwindow.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QApplication \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qapplication.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtCore/qcoreapplication.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtCore/qeventloop.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qdesktopwidget.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtGui/qguiapplication.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtGui/qinputmethod.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QMenuBar \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qmenubar.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qmenu.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qaction.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qactiongroup.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QStatusBar \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qstatusbar.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QToolBar \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qtoolbar.h \
-		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QWidget \
 		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/QGridLayout \
 		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qgridlayout.h \
 		C:/Qt/Qt5.12.2/5.12.2/mingw73_64/include/QtWidgets/qlayout.h \

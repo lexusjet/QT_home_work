@@ -20,7 +20,7 @@ public slots:
 
 
 private:
-    void douwnloadHtml(QString);
+    void douwnloadHtml(QUrl);
     void findeReferense();
 
 private:

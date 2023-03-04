@@ -23,6 +23,7 @@ private slots:
 
 private:
     QNetworkAccessManager * pnam;
+    QNetworkReply *tota;
 };
 
 #endif // DOWNLOADER_H
